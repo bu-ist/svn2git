@@ -39,9 +39,9 @@ function display_info() {
 function confirmation() {
 	read -p "+ Continue? [yn] " yn
 	case $yn in
-	    [Nn]* ) exit;;
+		[Nn]* ) exit;;
 		[Yy]* ) echo "Continuing...";;
-	        * ) echo "Please answer yes or no."; exit;
+			* ) echo "Please answer yes or no."; exit;
 	esac
 }
 

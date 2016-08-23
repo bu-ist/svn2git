@@ -6,7 +6,7 @@
 # merge base for each tag branch from master (e.g. the commit that the original tag was created from) and applies the
 # Git tag to that commit, then removes the tag branch.
 #
-# NOTE: You should alway review the tag branches to make sure there are no actual
+# NOTE: You should always review the tag branches to make sure there are no actual
 # changes committed to them that would be lost by force deleting.
 #
 
