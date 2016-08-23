@@ -59,6 +59,13 @@ function test_svn() {
 function git_clone() {
 	echo "+ Git clone using $SVNURL"
 	git svn clone $SVNURL git/$PACKAGE $STDLAYOUT --no-metadata --authors-file=bu-git-authors.txt
+	if [[ $? != "0" ]]; then
+		echo "PROBLEM! Something is wrong with the git-svn checkout."
+		echo "May be missing authors in bu-git-authors.txt file!"
+		echo "Check above. Fix and commit new version of bu-git-authors.txt."
+		echo "Delete broken checkout from git/$PACKAGE. Rerun script."
+		exit
+	fi
 	cd git/$PACKAGE
 }
 
