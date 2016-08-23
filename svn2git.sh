@@ -3,21 +3,32 @@
 function usage() {
 	echo ""
 	echo "+ Usage:"
-	echo "  sh $0 <svn-url> [git-url]"
+	echo "  sh $0 [-h] [--stdlayout|-s 0|1] [-g git-url] <svn-url>"
 	echo ""
 	echo "+ SVN URL: Use the root path of the package (no trailing slash, no trunk/tag)"
 	echo "  http://bifrost.bu.edu/svn/repos/wordpress/plugins/bu-taxonomies"
 	echo ""
 	echo "+ Git URL: Use github URL (https or ssh)"
 	echo "  git@github.com:bu-ist/bu-taxonomies.git"
-	exit;
+	echo ""
+	echo "+ stdlayout: On by default. Use --stdlayout 0 to avoid it."
+	echo "  git@github.com:bu-ist/bu-taxonomies.git"
+	exit 1
 }
+
 
 function display_info() {
 	if [[ $PACKAGE != "" ]]; then
 		echo "+ Converting to Git package ($PACKAGE) from SVN URL: $SVNURL"
+		if [[ -n "$STDLAYOUT" ]]; then
+			echo "+ Using stdlayout."
+		else
+			echo "+ Not using stdlayout."
+		fi
 		if [[ $GITURL != "" ]]; then
 			echo "+ Pushing git source to $GITURL"
+		else
+			echo "+ Not pushing git source. DO IT MANUALLY!"
 		fi
 		echo ""
 	else
@@ -47,7 +58,7 @@ function test_svn() {
 
 function git_clone() {
 	echo "+ Git clone using $SVNURL"
-	git svn clone $SVNURL git/$PACKAGE --stdlayout --no-metadata --authors-file=bu-git-authors.txt
+	git svn clone $SVNURL git/$PACKAGE $STDLAYOUT --no-metadata --authors-file=bu-git-authors.txt
 	cd git/$PACKAGE
 }
 
@@ -103,16 +114,40 @@ function push_to_git() {
 	fi
 }
 
-# Help
-if [[ $1 = "-h" || $1 = "--help" ]]; then
-	usage
-fi
-
 # Constants
-SVNURL="$1"
-GITURL="$2"
-PACKAGE=$(basename "$SVNURL")
+SVNURL=""
+GITURL=""
 LOCPATH=`pwd`
+PACKAGE=""
+STDLAYOUT="--stdlayout"
+
+# Parse
+while [[ $# -gt 0 ]]
+do
+	key="$1"
+
+	case $key in
+		-s|--stdlayout)
+		if [[ "$2" == "0" ]]; then
+			STDLAYOUT=""
+		fi
+		shift
+		;;
+		-g|--git)
+		GITURL="$2"
+		shift # past argument
+		;;
+		-h|--help)
+		usage
+		;;
+		*)
+		SVNURL="$1"
+		;;
+	esac
+	shift # past argument or value
+done
+
+PACKAGE=$(basename "$SVNURL")
 
 # Action!
 display_info
