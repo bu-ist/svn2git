@@ -25,5 +25,5 @@ sh svn2git.sh [-h] [--stdlayout|-s 0|1] [-g git-url] <svn-url>
 
 ## Example
 ```bash
-sh svn2git.sh -g git@github.com:bu-ist/bu-taxonomies>.git http://bifrost.bu.edu/svn/repos/wordpress/bu-taxonomies
+sh svn2git.sh -g git@github.com:bu-ist/bu-taxonomies.git http://bifrost.bu.edu/svn/repos/wordpress/bu-taxonomies
 ```
