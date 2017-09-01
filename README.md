@@ -2,7 +2,11 @@
 Convert SVN repos into Git
 
 ## Usage
+Clone this repository.
+
 ```bash
+cd svn2git
+
 sh svn2git.sh [-h] [--stdlayout|-s 0|1] [-g git-url] <svn-url>
 ```
 
@@ -15,7 +19,11 @@ sh svn2git.sh [-h] [--stdlayout|-s 0|1] [-g git-url] <svn-url>
 
 * stdlayout: On by default. Use `--stdlayout 0` to avoid it. Necessary to avoid for themes.
 
+* -g: Set git URL
+
+* -h: Help
+
 ## Example
 ```bash
-sh svn2git.sh http://bifrost.bu.edu/svn/repos/wordpress/bu-taxonomies git@github.com:bu-ist/bu-taxonomies.git
+sh svn2git.sh -g git@github.com:bu-ist/bu-taxonomies>.git http://bifrost.bu.edu/svn/repos/wordpress/bu-taxonomies
 ```
